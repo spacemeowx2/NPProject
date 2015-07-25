@@ -1,0 +1,8 @@
+#rm CMakeCache.txt
+#rm cmake_install.cmake
+#rm Makefile
+#rm -rf CMakeFiles
+#rm -rf build
+#mkdir build
+cd build
+cmake .. -G "Unix Makefiles"
