@@ -1,0 +1,7 @@
+*.dll
+Makefile
+
+libs/
+res/
+build/
+*.sublime-workspace
