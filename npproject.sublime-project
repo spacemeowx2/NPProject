@@ -1,0 +1,18 @@
+{
+	"folders":
+	[
+		{
+			"path": "/E/NPProject"
+		}
+	],
+	"settings":
+	{
+		"sublimeclang_options":
+		[
+			"-I${folder:${project_path:CMakeLists.txt}}/include",
+			"-I${folder:${project_path:CMakeLists.txt}}/src/base",
+			"-IC:\\Program Files (x86)\\CodeBlocks\\MinGW\\include\\",
+			"-IC:\\Program Files (x86)\\CodeBlocks\\MinGW\\lib\\gcc\\mingw32\\4.7.1\\include"
+		]
+	}
+}
