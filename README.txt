@@ -1,4 +1,6 @@
-ÒÀÀµµÄ¿â:
+ä¾èµ–çš„åº“:
 SDL_image
 SDL2
 SDL_ttf
+SDL_net
+lua

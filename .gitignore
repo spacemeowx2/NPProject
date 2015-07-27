@@ -5,4 +5,4 @@ libs/
 res/
 build/
 *.sublime-workspace
-*.stackdump
+NPProject.exe.stackdump
