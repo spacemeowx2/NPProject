@@ -2,7 +2,6 @@
 Makefile
 
 libs/
-res/
 build/
 *.sublime-workspace
 NPProject.exe.stackdump
