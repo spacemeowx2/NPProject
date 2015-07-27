@@ -13,8 +13,7 @@ using namespace std;
 
 Application::Application()
 {
-    mRen = new Render(1024,600);
-    mGame = new Game(*mRen);
+    mGame = new Game(1024, 600);
 }
 
 Application::~Application()
@@ -22,7 +21,6 @@ Application::~Application()
     //dtor
 
     delete mGame;
-    delete mRen;
 }
 
 void Application::start()
@@ -34,7 +32,7 @@ void Application::start()
     while (currentScene)
     {
         Scene* nextScene = NULL;
-        mGame->run(*currentScene);
+        mGame->run(currentScene);
         switch (currentScene->getResult())
         {
         case RETURNCODE_QUIT:

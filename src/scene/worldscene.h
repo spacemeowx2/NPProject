@@ -14,9 +14,8 @@ class WorldScene:
         bool onUpdate();
         void onDraw(Render&);
         void onDestroyRes(Game*);
-        void onMouseUp(int x, int y, int button);
-        void onKeyUp(SDL_Keycode);
-        void onPlayerDie();
+        bool onMouseUp(int x, int y, int button);
+        bool onKeyUp(SDL_Keycode);
     protected:
     private:
         bool quit;

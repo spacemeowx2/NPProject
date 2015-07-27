@@ -23,11 +23,11 @@ TitleScene::~TitleScene()
 
 void TitleScene::onLoadRes(Game* game)
 {
-    Render& render = game->getRender();
+    Render* render = game->getRender();
 
-    mBackground = render.loadImage("res/BattleCity.png");
+    mBackground = render->loadImage("res/BattleCity.png");
 
-    int winW = render.getWidth();
+    int winW = render->getWidth();
     btnStart = new Button(game, (winW-200)/2, 300, 200, 50);
     btnHelp = new Button(game, (winW-200)/2, 300+60, 200, 50);
     btnQuit = new Button(game, (winW-200)/2, 300+120, 200, 50);
@@ -46,8 +46,8 @@ void TitleScene::onLoadRes(Game* game)
 
 void TitleScene::onDestroyRes(Game* game)
 {
-    Render& render = game->getRender();
-    render.destroyImage(mBackground);
+    Render* render = game->getRender();
+    render->destroyImage(mBackground);
 }
 
 bool TitleScene::onUpdate()
@@ -56,16 +56,17 @@ bool TitleScene::onUpdate()
     return !quit;
 }
 
-void TitleScene::onDraw(Render& render)
+void TitleScene::onDraw(Render* render)
 {
     //424*131
-    render.drawImage(mBackground, (render.getWidth()-424)/2, 100, 424, 131);
+    render->drawImage(mBackground, (render->getWidth()-424)/2, 100, 424, 131);
     drawAll();
 }
 
-void TitleScene::onMouseUp(int x, int y, int button)
+bool TitleScene::onMouseUp(int x, int y, int button)
 {
     //cout << x << " " << y << " " << button << endl;
+    return false;
 }
 
 void TitleScene::onClick(Button* btn)

@@ -7,17 +7,18 @@
 
 using namespace std;
 
-#define invokeEvent(method, ...) for(vector<EventReceiver*>::iterator itr=mEventReceivers.begin(); \
-    itr!=mEventReceivers.end(); itr++) (*itr)->method(__VA_ARGS__);
+#define invokeEvent(method, ...) for(auto itr=mEventReceivers.begin(); \
+    itr!=mEventReceivers.end(); itr++) if((*itr)->method(__VA_ARGS__)) break;
 
-Game::Game(Render& ren):
-    mRen(ren)
+Game::Game(int w, int h)
 {
+    mRen = new Render(w, h);
     mouseX = mouseY=0;
 }
 
 Game::~Game()
 {
+    delete mRen;
     //dtor
 }
 
@@ -39,12 +40,12 @@ void Game::removeEventReceiver(EventReceiver* er)
     }
 }
 
-void Game::run(Scene& scene)
+void Game::run(Scene* scene)
 {
     //scene.onLoadRes(this);
     SDL_Event e;
     bool quit=false;
-    EventReceiver* er = scene.getEventReceiver();
+    EventReceiver* er = scene->getEventReceiver();
     if (er!=NULL)
         addEventReceiver(er);
     cout << mouseX << " " << mouseY << endl;;
@@ -57,7 +58,7 @@ void Game::run(Scene& scene)
             {
             case SDL_QUIT:
                 quit=true;
-                scene.setResult(RETURNCODE_QUIT);
+                scene->setResult(RETURNCODE_QUIT);
                 break;
             }
             switch (e.type)
@@ -81,11 +82,11 @@ void Game::run(Scene& scene)
                 break;
             }
         }
-        mRen.clear();
-        if (!scene.onUpdate())
+        mRen->clear();
+        if (!scene->onUpdate())
             quit=true;
-        scene.onDraw(mRen);
-        mRen.present();
+        scene->onDraw(mRen);
+        mRen->present();
         SDL_Delay(16);
     }
     if (er!=NULL)
@@ -96,59 +97,59 @@ void Game::run(Scene& scene)
 void Game::switchScene(Scene* s1, Scene* s2, int method)
 {
     const double ANI_FRAME = 32.0;
-    double cx=mRen.getWidth()/2, cy=mRen.getHeight()/2;
+    double cx=mRen->getWidth()/2, cy=mRen->getHeight()/2;
     if (method==-1)
         method=rand()%SWITCH_COUNT;
     SDL_Event e;
-    SDL_Texture* t1 = mRen.createTargetTexture();
-    SDL_Texture* t2 = mRen.createTargetTexture();
-    mRen.setTarget(t2);
+    SDL_Texture* t1 = mRen->createTargetTexture();
+    SDL_Texture* t2 = mRen->createTargetTexture();
+    mRen->setTarget(t2);
     s2->onDraw(mRen);
     for (int i = 0; i <= ANI_FRAME; i++) //about half a second
     {
         while (SDL_PollEvent(&e) != 0); //ignore all event
 
-        mRen.setTarget(t1);
-        mRen.clear();
+        mRen->setTarget(t1);
+        mRen->clear();
         s1->onUpdate();
         s1->onDraw(mRen);
-        mRen.setTarget(NULL);
+        mRen->setTarget(NULL);
 
         double scale = i/ANI_FRAME;
-        mRen.clear();
+        mRen->clear();
         switch (method)
         {
         case SWITCH_FADE:
             SDL_SetTextureAlphaMod(t1, 255*(1-scale));
             SDL_SetTextureAlphaMod(t2, 255*scale);
-            mRen.drawImage(t1, 0, 0);
-            mRen.drawImage(t2, 0, 0);
+            mRen->drawImage(t1, 0, 0);
+            mRen->drawImage(t2, 0, 0);
             break;
         case SWITCH_POP:
             scale *= scale;
             SDL_SetTextureAlphaMod(t1, 255*(1-scale));
             SDL_SetTextureAlphaMod(t2, 255*scale);
-            mRen.drawImage(t2,
+            mRen->drawImage(t2,
                            (1-scale)*cx,
                            (1-scale)*cy,
-                           scale*mRen.getWidth(),
-                           scale*mRen.getHeight());
-            mRen.drawImage(t1,
-                            -(scale)*mRen.getWidth(),
-                            -(scale)*mRen.getHeight(),
-                            (1+2*scale)*mRen.getWidth(),
-                            (1+2*scale)*mRen.getHeight());
+                           scale*mRen->getWidth(),
+                           scale*mRen->getHeight());
+            mRen->drawImage(t1,
+                            -(scale)*mRen->getWidth(),
+                            -(scale)*mRen->getHeight(),
+                            (1+2*scale)*mRen->getWidth(),
+                            (1+2*scale)*mRen->getHeight());
             break;
         case SWITCH_PUSH:
             scale *= scale;
-            mRen.drawImage(t1,(-scale)*mRen.getWidth(),0,
-                           mRen.getWidth(),mRen.getHeight());
-            mRen.drawImage(t2,(1-scale)*mRen.getWidth(),0,
-                           mRen.getWidth(),mRen.getHeight());
+            mRen->drawImage(t1,(-scale)*mRen->getWidth(),0,
+                           mRen->getWidth(),mRen->getHeight());
+            mRen->drawImage(t2,(1-scale)*mRen->getWidth(),0,
+                           mRen->getWidth(),mRen->getHeight());
             break;
         }
 
-        mRen.present();
+        mRen->present();
         SDL_Delay(16);
     }
 }

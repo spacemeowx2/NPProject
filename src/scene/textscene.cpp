@@ -33,7 +33,7 @@ void TextScene::onLoadRes(Game* game)
             SDL_Surface* srfc = font->Render_Blended(tmpText, 255,255,255);
             if (srfc)
             {
-                textTexture[line] = game->getRender().createTextureFromSurface(srfc);
+                textTexture[line] = game->getRender()->createTextureFromSurface(srfc);
                 textW[line] = srfc->w;
                 textH[line] = srfc->h;
                 totalH+=srfc->h;
@@ -53,16 +53,16 @@ void TextScene::onLoadRes(Game* game)
 void TextScene::onDestroyRes(Game* game)
 {
     for (int i=0; i<lineCount; i++)
-        game->getRender().destroyImage(textTexture[i]);
+        game->getRender()->destroyImage(textTexture[i]);
 }
 
-void TextScene::onDraw(Render& render)
+void TextScene::onDraw(Render* render)
 {
-    int fH = (render.getHeight()-totalH)/2;
+    int fH = (render->getHeight()-totalH)/2;
     for (int i=0; i<lineCount; i++)
     {
-        render.drawImage(textTexture[i],
-                         (render.getWidth()-textW[i])/2,
+        render->drawImage(textTexture[i],
+                         (render->getWidth()-textW[i])/2,
                          fH,
                          textW[i], textH[i]);
         fH += textH[i];

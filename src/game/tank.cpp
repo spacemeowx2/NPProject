@@ -146,7 +146,7 @@ void Tank::onUpdate()
     }
 }
 
-void Tank::onKeyDown(SDL_Keycode kc)
+bool Tank::onKeyDown(SDL_Keycode kc)
 {
     switch(kc)
     {
@@ -166,9 +166,10 @@ void Tank::onKeyDown(SDL_Keycode kc)
         keyShot = true;
         break;
     }
+    return true;
 }
 
-void Tank::onKeyUp(SDL_Keycode kc)
+bool Tank::onKeyUp(SDL_Keycode kc)
 {
     switch(kc)
     {
@@ -187,13 +188,32 @@ void Tank::onKeyUp(SDL_Keycode kc)
     case TKEY_SHOT:
         keyShot = false;
         break;
+    default:
+        return false;
+        break;
     }
+    return true;
 }
 
-void Tank::onMouseMove(int x, int y)
+bool Tank::onMouseMove(int x, int y)
 {
     mouseX = x;
     mouseY = y;
+    return false;
+}
+
+bool Tank::onMouseUp(int x, int y, int button)
+{
+    if (button==1)
+        keyShot=false;
+    return false;
+}
+
+bool Tank::onMouseDown(int x, int y, int button)
+{
+    if (button==1)
+        keyShot=true;
+    return false;
 }
 
 void Tank::fire(int vl)
@@ -207,18 +227,6 @@ void Tank::fire(int vl)
     // fire
     if (mListener)
         mListener->onFire(this, bullet);
-}
-
-void Tank::onMouseUp(int x, int y, int button)
-{
-    if (button==1)
-        keyShot=false;
-}
-
-void Tank::onMouseDown(int x, int y, int button)
-{
-    if (button==1)
-        keyShot=true;
 }
 
 double calcSquare(double x1,double y1,

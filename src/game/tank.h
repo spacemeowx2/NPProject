@@ -1,7 +1,6 @@
 #ifndef TANK_H
 #define TANK_H
 #include "baseobject.h"
-#include "SDL.h"
 #include "eventreceiver.h"
 #include "bullet.h"
 const int TANK_HEIGHT = 40;
@@ -46,11 +45,11 @@ class Tank:
         void die();
         void onDraw();
         void onUpdate();
-        void onKeyDown(SDL_Keycode kc);
-        void onKeyUp(SDL_Keycode kc);
-        void onMouseMove(int x, int y);
-        void onMouseDown(int x, int y, int button);
-        void onMouseUp(int x, int y, int button);
+        bool onKeyDown(SDL_Keycode kc);
+        bool onKeyUp(SDL_Keycode kc);
+        bool onMouseMove(int x, int y);
+        bool onMouseDown(int x, int y, int button);
+        bool onMouseUp(int x, int y, int button);
         void setListener(onTankEventListener* l) {mListener=l;}
         bool isHitByBullet(Bullet*);
         bool isDead() {return mIsDead; }

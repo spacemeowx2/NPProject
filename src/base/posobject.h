@@ -9,7 +9,7 @@ class PosObject:
 	public:
 		PosObject(Game*);
 		virtual ~PosObject();
-
+		
 };
 
 #endif // POSOBJECT_H

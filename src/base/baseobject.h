@@ -1,7 +1,10 @@
 #ifndef BASEOBJECT_H
 #define BASEOBJECT_H
-class Game;
-class Render;
+
+class BaseObject;
+#include "game.h"
+#include "render.h"
+#include <cstdint>
 
 class BaseObject
 {
@@ -14,6 +17,7 @@ class BaseObject
         Render& getRender() { return *mRen; }
         bool shouldUpdate;
         bool shouldDraw;
+        int64_t posX, posY; //The center point of object
     protected:
     private:
         Render* mRen;

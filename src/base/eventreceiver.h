@@ -1,16 +1,16 @@
 #ifndef EVENTRECEIVER_H
 #define EVENTRECEIVER_H
 
-#include "SDL.h"
+#include "SDL2/SDL.h"
 
 class EventReceiver
 {
     public:
-        virtual void onKeyDown(SDL_Keycode){};
-        virtual void onKeyUp(SDL_Keycode){};
-        virtual void onMouseMove(int x, int y){};
-        virtual void onMouseDown(int x, int y, int button){};
-        virtual void onMouseUp(int x, int y, int button){};
+        virtual bool onKeyDown(SDL_Keycode){ return false; };
+        virtual bool onKeyUp(SDL_Keycode){ return false; };
+        virtual bool onMouseMove(int x, int y){ return false; };
+        virtual bool onMouseDown(int x, int y, int button){ return false; };
+        virtual bool onMouseUp(int x, int y, int button){ return false; };
     protected:
     private:
 };

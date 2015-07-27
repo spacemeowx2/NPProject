@@ -53,10 +53,10 @@ GameScene::~GameScene()
 
 void GameScene::onLoadRes(Game* game)
 {
-    Render& render = game->getRender();
+    Render* render = game->getRender();
     bX = bY = 20;
-    bW = render.getWidth() - 40; // 右边留着显示信息
-    bH = render.getHeight() - 40;
+    bW = render->getWidth() - 40; // 右边留着显示信息
+    bH = render->getHeight() - 40;
 
     tankPlayer = new Tank(game, bX + bW/2.0, bY + bH-TANK_HEIGHT/2.0);
     tankPlayer->setColor(0,255,0);
@@ -72,8 +72,8 @@ void GameScene::onLoadRes(Game* game)
     for (int i=0; i<mLevel*3+2; i++)
     {
         Tank* tTank = new AITank(game,
-                                 mrand()*render.getWidth(),
-                                 mrand()*render.getHeight());
+                                 mrand()*render->getWidth(),
+                                 mrand()*render->getHeight());
         tTank->HP=tTank->MaxHP=3;
         tTank->showBar=true;
         tTank->group=GROUP_AI;
@@ -208,22 +208,24 @@ bool GameScene::onUpdate()
     return !quit;
 }
 
-void GameScene::onDraw(Render& render)
+void GameScene::onDraw(Render* render)
 {
     drawAll();
-    render.drawRect(bX, bY, bW, bH);
+    render->drawRect(bX, bY, bW, bH);
 }
 
-void GameScene::onMouseUp(int x, int y, int button)
+bool GameScene::onMouseUp(int x, int y, int button)
 {
     //if (button == 2)
     //    quit = true;
+    return false;
 }
 
-void GameScene::onKeyUp(SDL_Keycode kc)
+bool GameScene::onKeyUp(SDL_Keycode kc)
 {
     if (kc == SDLK_ESCAPE)
         quit = true;
+    return true;
 }
 
 void GameScene::onFire(Tank* tank, Bullet* new_bullet)

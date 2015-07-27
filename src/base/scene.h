@@ -2,7 +2,7 @@
 #define SCENE_H
 
 #include <eventreceiver.h>
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include <vector>
 using std::vector;
 
@@ -16,7 +16,7 @@ class Scene
         Scene();
         virtual ~Scene();
         virtual bool onUpdate(){return false;};
-        virtual void onDraw(Render&){};
+        virtual void onDraw(Render*){};
         virtual void onLoadRes(Game*){};
         virtual void onDestroyRes(Game*){};
         EventReceiver* getEventReceiver();

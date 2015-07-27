@@ -18,9 +18,9 @@ class Button: public BaseObject, virtual public EventReceiver
         };
         Button(Game*, int ix, int iy, int iw, int ih);
         virtual ~Button();
-        void onMouseMove(int x, int y);
-        void onMouseDown(int x, int y, int button){if(button==1)isButtonDown=true;};
-        void onMouseUp(int x, int y, int button);
+        bool onMouseMove(int x, int y);
+        bool onMouseDown(int x, int y, int button);
+        bool onMouseUp(int x, int y, int button);
         void onDraw();
         void setOnClickListener(onClickListener* l) {mListener=l;}
         void setText(string text) { mText=text; changeText(); }
@@ -35,6 +35,7 @@ class Button: public BaseObject, virtual public EventReceiver
         SDL_Texture* textTexture;
         int textW, textH;
         Font* font;
+        bool inRect(int, int);
 };
 
 #endif // BUTTON_H

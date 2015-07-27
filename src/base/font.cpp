@@ -1,5 +1,5 @@
 #include "font.h"
-#include "SDL_ttf.h"
+#include "SDL2/SDL_ttf.h"
 
 Font::Font(const char fileName[], int ptSize)
 {

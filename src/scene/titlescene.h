@@ -16,9 +16,9 @@ class TitleScene:
         virtual ~TitleScene();
         void onLoadRes(Game*);
         bool onUpdate();
-        void onDraw(Render&);
+        void onDraw(Render*);
         void onDestroyRes(Game*);
-        void onMouseUp(int x, int y, int button);
+        bool onMouseUp(int x, int y, int button);
         void onClick(Button*);
     protected:
     private:

@@ -25,16 +25,42 @@ Button::~Button()
     getGame().removeEventReceiver(this);
 }
 
-void Button::onMouseMove(int mx, int my)
+bool Button::inRect(int mx, int my)
 {
-    isMouseIn = false;
     if ((mx>=x) && (mx<=x+w))
     {
         if ((my>=y) && (my<=y+h))
         {
-            isMouseIn = true;
+            return true;
         }
     }
+    return false;
+}
+
+bool Button::onMouseDown(int mx, int my, int button)
+{
+    if(button==1 && inRect(mx, my))
+    {
+        isButtonDown = true;
+    }
+    return inRect(mx, my);
+}
+
+bool Button::onMouseMove(int mx, int my)
+{
+    isMouseIn = inRect(mx, my);
+    return isMouseIn;
+}
+
+bool Button::onMouseUp(int x, int y, int button)
+{
+    if(button==1)
+    {
+        isButtonDown=false;
+    }
+    if(mListener && inRect(x, y) && button==1)
+        mListener->onClick(this);
+    return inRect(x, y);
 }
 
 void Button::onDraw()
@@ -55,14 +81,6 @@ void Button::onDraw()
     render.fillRect(x, y, w, h);
     render.drawImage(textTexture, x+w/2-textW/2, y+h/2-textH/2,
                      textW, textH);
-}
-
-void Button::onMouseUp(int x, int y, int button)
-{
-    if(button==1)
-        isButtonDown=false;
-    if(mListener && isMouseIn && button==1)
-        mListener->onClick(this);
 }
 
 void Button::changeText()

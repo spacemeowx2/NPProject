@@ -1,23 +1,20 @@
-#include "SDL.h"
-#include "SDL_ttf.h"
+#include "SDL2/SDL.h"
+#include "SDL2/SDL_ttf.h"
 #include "application.h"
 #include <cstdlib>
 #include <ctime>
 #include <cstdio>
 #include "random.h"
 
+#include "packedfile.h"
+#include "clua.h"
 #include "lua.hpp"
+#include "LuaBridge/LuaBridge.h"
+#include "baseobject.h"
 
 #undef main
 int main(int argc, char* argv[])
 {
-    lua_State* L;
-    L = luaL_newstate();
-    luaL_openlibs(L);
-    luaL_dofile(L, "test.lua");
-    lua_close(L);
-    return 0;
-
     srand(time(NULL));
     if (SDL_Init(SDL_INIT_EVERYTHING)==-1)
     {
@@ -31,6 +28,21 @@ int main(int argc, char* argv[])
     }
     
     Application app;
+
+    /*
+    CLua* l=new CLua();
+
+    lua_State* L = l->getState();
+
+    luabridge::push (L, &app);
+    lua_setglobal (L, "app");
+
+    l->doFile("lua/test.lua");
+    if (l->getError())
+        puts(l->getError());
+
+    delete l;
+    */
     app.start();
     TTF_Quit();
     SDL_Quit();

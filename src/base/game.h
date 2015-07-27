@@ -2,8 +2,8 @@
 #define GAME_H
 
 class Game;
-class Render;
-class Scene;
+#include "render.h"
+#include "scene.h"
 #include "eventreceiver.h"
 #include <vector>
 const int SWITCH_RANDOM=-1;
@@ -17,16 +17,16 @@ using std::vector;
 class Game
 {
     public:
-        Game(Render&);
-        virtual ~Game();
-        void run(Scene&);
+        Game(int, int);
+        ~Game();
+        void run(Scene*);
         void addEventReceiver(EventReceiver*);
         void removeEventReceiver(EventReceiver*);
         void switchScene(Scene*, Scene*,int method=SWITCH_RANDOM);
-        Render& getRender() { return mRen; }
+        Render* getRender() { return mRen; }
     protected:
     private:
-        Render& mRen;
+        Render* mRen;
         vector<EventReceiver*> mEventReceivers;
         int mouseX, mouseY;
 };

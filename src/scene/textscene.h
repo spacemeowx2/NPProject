@@ -3,7 +3,6 @@
 
 #include "scene.h"
 #include "eventreceiver.h"
-#include "SDL.h"
 class Font;
 class Render;
 
@@ -19,9 +18,9 @@ class TextScene:
         void onLoadRes(Game*);
         void onDestroyRes(Game*);
         bool onUpdate();
-        void onDraw(Render&);
-        void onMouseUp(int,int,int) {quit=true;};
-        void onKeyUp(SDL_Keycode) {quit=true;};
+        void onDraw(Render*);
+        bool onMouseUp(int,int,int) {quit=true;};
+        bool onKeyUp(SDL_Keycode) {quit=true;};
     protected:
     private:
 
